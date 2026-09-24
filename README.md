@@ -1,0 +1,35 @@
+# Duration Parse
+
+Parse human-readable durations like `2h30m` and render them back readably.
+
+```python
+from duration_parse import parse_duration, Duration
+
+# Parse a duration string
+d = parse_duration("2h30m")
+print(d.seconds)   # 9000
+
+# Render a duration back to a string
+print(str(d))      # "2h30m"
+```
+
+## Why this library exists
+
+Durations appear in configuration files, CLI arguments, and APIs, but Python's
+standard library has no direct parser for strings like `1d12h`. This library
+fills that gap with a tiny, dependency-free API. It stores durations as integer
+seconds, which avoids floating point drift and makes equality checks trivial.
+
+The main trade-off is that the supported unit set is deliberately small:
+seconds, minutes, hours, days, and weeks. Months and years are not included
+because their lengths vary; adding them would require a calendar reference and
+introduce ambiguity.
+
+## Edge cases
+
+- The parser accepts an optional leading sign (`-` or `+`) and rejects anything
+  else, including empty strings, whitespace, unknown units, and missing numbers.
+- Rendering never emits zero-valued units; `Duration(3600)` renders as `1h`,
+  not `1h0m0s`.
+- Round-tripping works for all valid inputs: `str(parse_duration(x)) == x`
+  when `x` is already in canonical form.
