@@ -33,3 +33,10 @@ introduce ambiguity.
   not `1h0m0s`.
 - Round-tripping works for all valid inputs: `str(parse_duration(x)) == x`
   when `x` is already in canonical form.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
