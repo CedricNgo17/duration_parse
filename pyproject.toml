@@ -1,6 +1,6 @@
 [project]
 name = "duration-parse"
-version = "0.1.0"
+version = "0.1.1"
 description = "Parse durations like 2h30m and render them back readably."
 requires-python = ">=3.10"
 dependencies = []
